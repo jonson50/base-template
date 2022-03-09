@@ -9,6 +9,7 @@ export class AppComponent {
    hideMenu: boolean;
    wideContent: boolean;
    innerWidth: any;
+   contador:number = 0;
 
    constructor() {
       this.hideMenu = false;
@@ -23,7 +24,8 @@ export class AppComponent {
    @HostListener('window:resize', ['$event'])
    onResize(event: any) {
       this.innerWidth = window.innerWidth;
-      this.setScreen();
+      //this.setScreen();
+      this.contador++;
    }
 
    setScreen() {
@@ -41,6 +43,19 @@ export class AppComponent {
 
    toggleMenu() {
       this.hideMenu = !this.hideMenu;
-      this.wideContent = !this.wideContent;
+      if(this.isDesktop()) this.wideContent = !this.wideContent;
+      this.getSideNavBarStyle();
    }
+
+   getSideNavBarStyle(): any {
+      let navBarStyle: any = {};
+      navBarStyle.transition = 'left ' + '0.4s, visibility 0.4s';
+      navBarStyle.width = `300px`;
+      navBarStyle['left'] = `${(this.hideMenu ? -300 : 0)}px`;
+  
+      let navBarContainerStyle: any = {};
+      navBarContainerStyle.transition = 'width ' + '0.4s, visibility 0.4s';
+      navBarContainerStyle['width'] = `${(this.hideMenu ? 0 : 300)}px`;
+      return [navBarContainerStyle, navBarStyle];
+    }
 }
