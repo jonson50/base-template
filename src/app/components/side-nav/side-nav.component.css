@@ -1,0 +1,7 @@
+.hideSideMenu {
+   display: none !important;
+}
+
+.overlayBg {
+   display: block;
+}
