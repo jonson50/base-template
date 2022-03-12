@@ -1,4 +1,4 @@
-<nav class="w3-sidebar w3-white" style="z-index:3; top: 4rem;" [ngStyle]="getSideNavBarStyle()[0]">
+<nav class="jb-sidebar w3-light-grey" style="z-index:3;" [ngStyle]="getSideNavBarStyle()[0]">
    <br>
    <div [ngStyle]="getSideNavBarStyle()[1]">
       <div class="w3-container w3-row">
@@ -34,5 +34,5 @@
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large w3-animate-opacity" [ngClass]="{'hideSideMenu': (showSideNav |async), 'overlayBg ': !(showSideNav |async)}"
+<div class="w3-overlay w3-hide-large w3-animate-opacity" [ngClass]="{'hideSideMenu': (collapseNav |async), 'overlayBg ': !(collapseNav |async)}"
    style="cursor:pointer" title="close side menu" id="myOverlay"></div>

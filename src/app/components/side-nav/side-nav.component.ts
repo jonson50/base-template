@@ -1,46 +1,63 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
    selector: 'app-side-nav',
    templateUrl: './side-nav.component.html',
    styleUrls: ['./side-nav.component.css'],
 })
-export class SideNavComponent implements OnInit {
-   showSideNav: Observable<boolean>;
+export class SideNavComponent implements OnInit, AfterViewInit {
+   collapseNav: Observable<boolean>;
+   isMobile = false;
+   width: number = 300;
 
-
-   constructor(private navService: NavigationService) {
-      this.showSideNav = navService.getShowNav();
-      this.navService.setScreenWidth(window.innerWidth);
+   constructor(
+      private navService: NavigationService,
+      private observer: BreakpointObserver
+   ) {
+      this.collapseNav = this.navService.getcollapseNav();
    }
 
-   ngOnInit(): void {
-      // this.innerWidth = window.innerWidth;
+   ngOnInit(): void {}
 
-      //this.setScreen();
+   ngAfterViewInit(): void {
+      // throw new Error('Method not implemented.');
+      Promise.resolve().then(() => {
+         this.observer.observe(['(max-width: 800px)']).subscribe((res) => {
+            if (res.matches) {
+               // Screen is less than 800px wide (mobile)
+               this.isMobile = true;
+               this.navService.setcollapseNav(true);
+               this.navService.navWidth = 0;
+               this.navService.setSideNavWidth(0);
+               // console.log('max-width<800px');
+            } else {
+               // Screen is greater than 800px wide
+               this.isMobile = false;
+               this.navService.setcollapseNav(false);
+               this.navService.navWidth = this.width;
+               this.navService.setSideNavWidth(this.width);
+               // console.log('max-width>800px');
+            }
+         });
+      });
    }
 
-   @HostListener('window:resize', ['$event'])
-   onResize(event: any) {
-      //this.innerWidth = window.innerWidth;
-      this.navService.setScreenWidth(window.innerWidth);
-      //this.setScreen();
-      //this.contador++;
-   }
-
-   getSideNavBarStyle(): any {
-      let width: number = 280;
+   getSideNavBarStyle(): any {   
       let duration: number = 0.4;
       let navBarStyle: any = {};
-      navBarStyle.transition = 'left ' + duration + 's, visibility' + duration + 's';
-      navBarStyle.width = width + 'px';
-      navBarStyle['left'] = `${(this.navService.isNavOpen() ? -width : 0)}px`;
+      navBarStyle.transition ='left '+duration+'s, visibility'+duration+'s';
+      navBarStyle.width = this.width + 'px';
+      navBarStyle.height = '90vh';
+      navBarStyle['left'] = `${this.navService.isNavCollapsed() ? -this.width : 0}px`;
 
       let navBarContainerStyle: any = {};
-      navBarContainerStyle.transition = 'width ' + duration + 's, visibility' + duration + 's';
-      navBarContainerStyle.width = `${(this.navService.isNavOpen() ? 0 : width)}px`;
+      navBarContainerStyle.transition =
+         'width ' + duration + 's, visibility' + duration + 's';
+      navBarContainerStyle.width = `${ this.navService.isNavCollapsed() ? 0 : this.width }px`;
+
       return [navBarContainerStyle, navBarStyle];
-    }
+   }
 }

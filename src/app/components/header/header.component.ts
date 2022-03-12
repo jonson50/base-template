@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { NavigationService } from 'src/app/services/navigation.service';
 
 @Component({
@@ -7,8 +8,10 @@ import { NavigationService } from 'src/app/services/navigation.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor(private navService: NavigationService) { }
+  collapseNav: Observable<boolean>;
+  constructor(private navService: NavigationService) { 
+    this.collapseNav = navService.getcollapseNav();
+  }
 
   ngOnInit(): void {
   }

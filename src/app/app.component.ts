@@ -1,6 +1,6 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NavigationService } from './services/navigation.service';
+import { NavigationService } from 'src/app/services/navigation.service';
 
 @Component({
    selector: 'app-root',
@@ -8,17 +8,11 @@ import { NavigationService } from './services/navigation.service';
    styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-   innerWidth: any;
-   contador:number = 0;
-   wideContent: Observable<boolean>;
-
+   sideNavWidth: Observable<number>;
+   
    constructor(private navService: NavigationService) {
-      this.wideContent = this.navService.getWideContent();
+      this.sideNavWidth = this.navService.getSideNavWidth();
    }
 
-   ngOnInit() {
-      this.innerWidth = window.innerWidth;
-  }
-
-
+   
 }

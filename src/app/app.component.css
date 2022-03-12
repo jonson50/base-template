@@ -1,5 +1,8 @@
-.wideContent {
-   margin-left: 0px !important;
+.main-content {
+   width: 100%;
 }
 
-
+.layout-jb {
+   display: flex;
+   margin-top:4rem;
+}

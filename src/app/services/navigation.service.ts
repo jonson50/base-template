@@ -6,64 +6,42 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class NavigationService {
 
-   private screenWidth: any;
-   private showNav$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-   private wideContent$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+   private collapseNav$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+   private sideNavWidth$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+   isMobile: boolean = false;
+   navWidth:number = 0;
 
    constructor() { }
 
-   getShowNav(): Observable<any> {
-     return this.showNav$.asObservable();
+   getcollapseNav(): Observable<any> {
+     return this.collapseNav$.asObservable();
    }
 
-   getWideContent(): Observable<any> {
-      return this.wideContent$.asObservable();
+   getSideNavWidth(): Observable<any> {
+      return this.sideNavWidth$.asObservable();
    }
 
-   setShowNav(showHide: boolean) {
-     this.showNav$.next(showHide);
+   setcollapseNav(showHide: boolean) {
+     this.collapseNav$.next(showHide);
    }
 
-   setWideContent(value: boolean) {
-      this.wideContent$.next(value);
-   }
-
-   setScreenWidth(value:number) {
-      this.screenWidth = value;
+   setSideNavWidth(value: number) {
+      this.sideNavWidth$.next(value);
    }
 
    toggleNavState() {
-     this.showNav$.next(!this.showNav$.value);
+     this.collapseNav$.next(!this.collapseNav$.value);
    }
 
-   private toggleWideContent() {
-      this.wideContent$.next(!this.wideContent$.value);
-   }
-
-   isNavOpen():boolean {
-     return this.showNav$.value;
-   }
-
-   isWideConte():boolean {
-      return this.wideContent$.value;
-   }
-
-   private setScreen() {
-      if(this.isDesktop()) {
-         this.setShowNav(false);
-         this.setWideContent(false);
-      } else {
-         this.setShowNav(true);
-      }
-   }
-
-   private isDesktop() {
-      return this.screenWidth < 992 ? false : true;
+   isNavCollapsed():boolean {
+     return this.collapseNav$.value;
    }
 
    toggleMenu() {
       this.toggleNavState();
-      if(this.isDesktop()) this.toggleWideContent();
+      if(!this.isMobile){
+         this.setSideNavWidth(this.isNavCollapsed() ? 0 : this.navWidth);
+      }
    }
 
 }
