@@ -1,8 +1,8 @@
 <!-- Top container -->
-<div class="w3-bar w3-top w3-large headerjb">
+<div class="w3-bar w3-top w3-xlarge headerjb">
    <!-- <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button> -->
-   <span class="w3-bar-item w3-button w3-hover-none w3-padding-16" (click)="toggleMenu()">
+   <span class="w3-bar-item w3-button w3-hover-none" (click)="toggleMenu()">
      <i class="fa" [ngClass]="{'fa-indent': (collapseNav |async), 'fa-outdent ': !(collapseNav |async)}"></i>
     </span>
-   <span class="w3-bar-item w3-left w3-padding-16">Logo</span>
+   <span class="w3-bar-item w3-left">Logo</span>
  </div>

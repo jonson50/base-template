@@ -45,17 +45,17 @@ export class SideNavComponent implements OnInit, AfterViewInit {
       });
    }
 
-   getSideNavBarStyle(): any {   
-      let duration: number = 0.4;
+   getSideNavBarStyle(): any {
+      let duration: number = 0.3;
       let navBarStyle: any = {};
-      navBarStyle.transition ='left '+duration+'s, visibility'+duration+'s';
+      navBarStyle.transition ='left '+duration+'s' ; //, visibility '+duration+'s';
       navBarStyle.width = this.width + 'px';
       navBarStyle.height = '90vh';
       navBarStyle['left'] = `${this.navService.isNavCollapsed() ? -this.width : 0}px`;
 
       let navBarContainerStyle: any = {};
       navBarContainerStyle.transition =
-         'width ' + duration + 's, visibility' + duration + 's';
+         'width ' + duration + 's'; //, visibility ' + duration + 's';
       navBarContainerStyle.width = `${ this.navService.isNavCollapsed() ? 0 : this.width }px`;
 
       return [navBarContainerStyle, navBarStyle];
